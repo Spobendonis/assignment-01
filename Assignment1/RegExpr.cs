@@ -13,7 +13,16 @@ public static class RegExpr
         }
     }
 
-    public static IEnumerable<(int width, int height)> Resolution(string resolutions) => throw new NotImplementedException();
+    public static IEnumerable<(int width, int height)> Resolution(IEnumerable<string> resolutions) {
+        var pattern = @"(?<width>[0-9]+)x(?<height>[0-9]+)";
+        Regex rg = new Regex(pattern);
+        foreach (var r in resolutions) {
+            Match match = rg.Match(r);
+            if (match.Success) {
+                yield return (int.Parse(match.Groups["width"].Value), int.Parse(match.Groups["height"].Value));
+            }
+        }
+    }
 
     public static IEnumerable<string> InnerText(string html, string tag) => throw new NotImplementedException();
 }

@@ -14,4 +14,17 @@ public class RegExprTests
         //Assert
         Assert.Equal(answer, output);
     }
+
+    [Fact]
+    public void Resolutions_1920x1080___1024x768_800x600_640x480_Gives_Correct_Answer() {
+        //Arrange
+        var list = new List<string> {"1920x1080", "1024x768, 800x600, 640x480"};
+        var answer = new List<(int, int)> {(1920, 1080), (1024, 768), (800, 600), (640, 480)};
+
+        //Act
+        var output = RegExpr.Resolution(list);
+
+        //Assert
+        Assert.Equal(answer, output);
+    }
 }
