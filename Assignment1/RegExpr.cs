@@ -16,7 +16,7 @@ public static class RegExpr
     public static IEnumerable<(int width, int height)> Resolution(IEnumerable<string> resolutions) {
         var pattern = @"(?<width>[0-9]+)x(?<height>[0-9]+)";
         Regex rg = new Regex(pattern);
-        foreach (var r in resolutions) {
+        foreach (var r in SplitLine(resolutions)) {
             Match match = rg.Match(r);
             if (match.Success) {
                 yield return (int.Parse(match.Groups["width"].Value), int.Parse(match.Groups["height"].Value));
