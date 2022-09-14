@@ -24,5 +24,17 @@ public static class RegExpr
         }
     }
 
-    public static IEnumerable<string> InnerText(string html, string tag) => throw new NotImplementedException();
+    public static IEnumerable<string> InnerText(string html, string tag) {
+        var pattern = $@"<({tag})[^>]+>(?<inner>[ a-zA-Z0-9]+)</\1>";
+        foreach (Match match in Regex.Matches(html, pattern)) {
+            yield return match.Groups["inner"].Value;
+        }
+    }
+
+    public static IEnumerable<(Uri url, string title)> Urls(string html) {
+        var pattern = @"href=""(?<link>.+?)"".*?(title=""(?<title>.+?)"")*?>(?<inner>.*?)<";
+        foreach (Match match in Regex.Matches(html, pattern)) {
+            yield return (new Uri(match.Groups["link"].Value), (match.Groups["title"].Success ? match.Groups["title"].Value : match.Groups["inner"].Value));
+        }
+    }
 }
